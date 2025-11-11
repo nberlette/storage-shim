@@ -2,7 +2,6 @@ import {
   $ArrayFrom,
   $FunctionHasInstance,
   $FunctionPrototypeBind,
-  $globalThis,
   $Map,
   $MapPrototypeClear,
   $MapPrototypeDelete,

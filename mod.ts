@@ -37,5 +37,4 @@ export * from "./src/session_storage.ts";
 
 export default { Storage, localStorage, sessionStorage } as const;
 
-
 export { default as "module.exports" } from "./mod.ts";

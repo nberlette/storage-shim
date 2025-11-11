@@ -124,20 +124,21 @@ export type Result<
  * ```
  */
 export function installStorage<T extends object = typeof globalThis>(
-  target: T = globalThis as T
-): Result<T,
-  { Storage: typeof Storage | undefined }
-> {
+  target: T = globalThis as T,
+): Result<T, { Storage: typeof Storage | undefined }> {
   const data = {
     __proto__: null,
     Storage: undefined as typeof Storage | undefined,
   };
 
   // Install global Storage if not already available
-  if ("Storage" in target &&
-typeof target.Storage === "function") {
+  if (
+    "Storage" in target &&
+    typeof target.Storage === "function"
+  ) {
     return {
-      type: "skipped", target,
+      type: "skipped",
+      target,
       info: "Storage is already installed.",
     };
   }
@@ -162,13 +163,13 @@ typeof target.Storage === "function") {
     return { type: "failure", target, error };
   }
 
-  return { type: "success", target,  data };
+  return { type: "success", target, data };
 }
 
 export function installLocalStorage<T extends object = typeof globalThis>(
-  target: T = globalThis as T
+  target: T = globalThis as T,
 ): Result<T, {
-  localStorage: typeof localStorage | undefined,
+  localStorage: typeof localStorage | undefined;
 }> {
   const data = {
     __proto__: null,
@@ -177,18 +178,21 @@ export function installLocalStorage<T extends object = typeof globalThis>(
 
   // Install global localStorage if not already available
   if (
-"localStorage" in target &&
+    "localStorage" in target &&
     typeof target.localStorage === "object" &&
     target.localStorage !== null
   ) {
     return {
-      type: "skipped", target,
+      type: "skipped",
+      target,
       info: "localStorage is already installed.",
     };
   }
 
   try {
-    if (!(target as T & Data).Storage || (target as T & Data).Storage !== Storage) {
+    if (
+      !(target as T & Data).Storage || (target as T & Data).Storage !== Storage
+    ) {
       installStorage(target);
     }
 
@@ -205,13 +209,13 @@ export function installLocalStorage<T extends object = typeof globalThis>(
     return { type: "failure", target, error };
   }
 
-  return { type: "success", target,  data };
+  return { type: "success", target, data };
 }
 
 export function installSessionStorage<T extends object = typeof globalThis>(
-  target: T = globalThis as T
+  target: T = globalThis as T,
 ): Result<T, {
-  sessionStorage: typeof sessionStorage | undefined,
+  sessionStorage: typeof sessionStorage | undefined;
 }> {
   const data = {
     __proto__: null,
@@ -220,18 +224,21 @@ export function installSessionStorage<T extends object = typeof globalThis>(
 
   // Install global sessionStorage if not already available
   if (
-"sessionStorage" in target &&
+    "sessionStorage" in target &&
     typeof target.sessionStorage === "object" &&
     target.sessionStorage !== null
   ) {
     return {
-      type: "skipped", target,
+      type: "skipped",
+      target,
       info: "sessionStorage is already installed.",
     };
   }
 
   try {
-    if (!(target as T & Data).Storage || (target as T & Data).Storage !== Storage) {
+    if (
+      !(target as T & Data).Storage || (target as T & Data).Storage !== Storage
+    ) {
       installStorage(target);
     }
     $ObjectDefineProperty(target, "sessionStorage", {
@@ -247,14 +254,12 @@ export function installSessionStorage<T extends object = typeof globalThis>(
     return { type: "failure", target, error };
   }
 
-  return { type: "success", target,  data };
+  return { type: "success", target, data };
 }
 
 export function installStorageEvent<T extends object = typeof globalThis>(
-  target: T = globalThis as T
-): Result<T,
-  { StorageEvent: typeof StorageEvent | undefined }
-> {
+  target: T = globalThis as T,
+): Result<T, { StorageEvent: typeof StorageEvent | undefined }> {
   const data = {
     __proto__: null,
     StorageEvent: undefined as typeof StorageEvent | undefined,
@@ -263,13 +268,16 @@ export function installStorageEvent<T extends object = typeof globalThis>(
   // Install global StorageEvent if not already available
   if (typeof (target as T & Data).StorageEvent === "function") {
     return {
-      type: "skipped", target,
+      type: "skipped",
+      target,
       info: "StorageEvent is already installed.",
     };
   }
 
   try {
-    if (!(target as T & Data).Storage || (target as T & Data).Storage !== Storage) {
+    if (
+      !(target as T & Data).Storage || (target as T & Data).Storage !== Storage
+    ) {
       installStorage(target);
     }
     $ObjectDefineProperty(StorageEvent, "name", {
@@ -291,11 +299,11 @@ export function installStorageEvent<T extends object = typeof globalThis>(
     return { type: "failure", target, error };
   }
 
-  return { type: "success", target,  data };
+  return { type: "success", target, data };
 }
 
 export function install<T extends object = typeof globalThis>(
-  target: T = globalThis as T
+  target: T = globalThis as T,
 ): Result<T, Data> {
   const a = installStorage(target);
   if (a.type === "failure") return a;
@@ -312,13 +320,15 @@ export function install<T extends object = typeof globalThis>(
   // Check if all installations were skipped
   if (b.type === "skipped" && c.type === "skipped" && d.type === "skipped") {
     return {
-      type: "skipped", target,
+      type: "skipped",
+      target,
       info: "The Web Storage API is already installed.",
     };
   }
 
   return {
-    type: "success", target,
+    type: "success",
+    target,
     data: {
       ...(a.type === "success" && a.data),
       ...(b.type === "success" && b.data),
