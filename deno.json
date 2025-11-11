@@ -1,0 +1,30 @@
+{
+  "name": "@nick/storage",
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": {
+    "name": "Nicholas Berlette",
+    "email": "nick@berlette.com",
+    "url": "https://github.com/nberlette/storage-shim"
+  },
+  "exports": {
+    ".": "./mod.ts",
+    "./install": "./src/install.ts",
+    "./shim": "./src/shim.ts",
+    "./shim.d.ts": "./src/shim.d.ts",
+    "./storage": "./src/storage.ts",
+    "./session-storage": "./src/session_storage.ts",
+    "./local-storage": "./src/local_storage.ts",
+    "./storage-event": "./src/storage_event.ts"
+  },
+  "imports": {
+    "@std/testing": "jsr:@std/testing@1.0.15",
+    "@std/expect": "jsr:@std/expect@1.0.17",
+    "@std/assert": "jsr:@std/assert@1.0.14"
+  },
+  "publish": {
+    "include": ["**/*.ts", "**/*.json", "**/*.md", "LICENSE"],
+    "exclude": ["**/.*", "**/*.test.*", "**/*.bench.*", "!src/shim.*"]
+  },
+  "exclude": ["src/shim.d.ts"]
+}
