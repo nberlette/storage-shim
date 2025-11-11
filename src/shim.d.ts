@@ -1,6 +1,7 @@
 // Copyright 2018-2025 the Deno authors. MIT license.
 
 // deno-lint-ignore-file no-explicit-any no-var
+// @ts-nocheck -- shim file, skip type checking in case of collisions
 
 /**
  * This Web Storage API interface provides access to a particular domain's
