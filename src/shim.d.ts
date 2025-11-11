@@ -3,17 +3,60 @@
 // deno-lint-ignore-file no-explicit-any no-var
 
 /**
- * The `Storage` interface represents a key-value storage mechanism with a
- * simple API for storing, retrieving, and managing data. This interface is used by
- * both the {@linkcode localStorage} and {@linkcode sessionStorage} objects.
+ * This Web Storage API interface provides access to a particular domain's
+ * session or local storage. It allows, for example, the addition,
+ * modification, or deletion of stored data items.
+ *
+ * This interface is used by both the {@linkcode localStorage} and
+ * {@linkcode sessionStorage} objects.
  *
  * @see https://developer.mozilla.org/en-US/docs/Web/API/Storage
  * @see https://html.spec.whatwg.org/multipage/webstorage.html#the-storage-interface
+ * @category Storage
  */
-interface Storage extends NoInfer<import("./storage.ts").Storage> {}
+interface Storage {
+  /**
+   * Returns the number of key/value pairs currently present in the list
+   * associated with the object.
+   */
+  readonly length: number;
+  /**
+   * Empties the list associated with the object of all key/value pairs, if
+   * there are any.
+   */
+  clear(): void;
+  /**
+   * Returns the current value associated with the given key, or null if the
+   * given key does not exist in the list associated with the object.
+   */
+  getItem(key: string): string | null;
+  /**
+   * Returns the name of the nth key in the list, or null if n is greater than
+   * or equal to the number of key/value pairs in the object.
+   */
+  key(index: number): string | null;
+  /**
+   * Removes the key/value pair with the given key from the list associated
+   * with the object, if a key/value pair with the given key exists.
+   */
+  removeItem(key: string): void;
+  /**
+   * Sets the value of the pair identified by key to value, creating a new
+   * key/value pair if none existed for key previously.
+   *
+   * @throws {DOMException} "QuotaExceededError" exception if the new value
+   * couldn't be set. (Setting could fail if, e.g., the user has disabled
+   * storage for the site, or if the quota has been exceeded.)
+   */
+  setItem(key: string, value: string): void;
+  [name: string]: any;
+}
 
-// @ts-ignore allow redeclaration (deno uses bad types for this)
-declare var Storage: typeof import("./storage.ts").Storage;
+/** @category Storage */
+declare var Storage: {
+  readonly prototype: Storage;
+  new (): Storage;
+};
 
 interface StorageEventInit extends EventInit {
   key?: string | null;
